@@ -20,6 +20,12 @@ const manager = [
         type: 'input',
         name: 'manager_name',
         message: 'Enter team managers name',
+        validate: async (input) => {
+            if(typeof input == 'number' || input instanceof Number) {
+                return 'Error'
+            }
+            return true;
+        }
     },
     {
         type: 'input',
@@ -94,30 +100,43 @@ const menu = [
     }
 ]
 // create team
+var output = [];
 const prompt = inquirer.createPromptModule();
+
 
 function createTeam() {
     prompt(manager).then(answer => {
         const mngr = new Manager(answer.manager_name, answer.manager_id, answer.manager_email, answer.manager_office);
         promptMenu();
+        output.push(mngr);
     })
 }
 
 //prompt for menu funct
-
 function promptMenu() {
     prompt(menu).then(answer => {
         if (answer.add === 'Add an engineer') {
             prompt(engineer).then(answer => {
                 const eng = new Engineer(answer.engineer_name, answer.engineer_id, answer.engineer_email, answer.engineer_git)
                 promptMenu();
+                output.push(eng);
+                
             })
         } else if (answer.add === "Add an intern") {
             prompt(intern).then(answer => {
                 const int = new Intern(answer.intern_name, answer.intern_id, answer.intern_email, answer.intern_school);
                 promptMenu();
+                output.push(int)
+               
             })
-        } else console.log('exit');
+        } else writeToFile(outputPath, output);
+    })
+}
+
+//function to write to file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, render(data), err => {
+        err ? console.log(err) : console.log("succcess");
     })
 }
 
