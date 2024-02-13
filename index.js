@@ -21,8 +21,8 @@ const manager = [
         name: 'manager_name',
         message: 'Enter team managers name',
         validate: async (input) => {
-            if(typeof input == 'number' || input instanceof Number) {
-                return 'Error'
+            if(!isNaN(input) || input === '') {
+                return 'Please enter a string'
             }
             return true;
         }
@@ -31,16 +31,34 @@ const manager = [
         type: 'input',
         name: 'manager_id',
         message: 'Enter team managers id',
+        validate: async (input) => {
+            if(isNaN(input) || input === '') {
+                return 'Please enter a number'
+            }
+            return true;
+        }
     },
     {
         type: 'input',
         name: 'manager_email',
         message: 'Enter team managers email',
+        validate: async (input) => {
+            if(!isNaN(input) || input === '') {
+                return 'Please enter a string'
+            }
+            return true;
+        }
     },
     {
         type: 'input',
         name: 'manager_office',
         message: 'Enter team managers office number',
+        validate: async (input) => {
+            if(isNaN(input) || input === '') {
+                return 'Please enter a number'
+            }
+            return true;
+        }
     }
 ]
 const engineer = [
